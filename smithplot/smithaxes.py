@@ -996,7 +996,8 @@ class SmithAxes(Axes):
                     if dividers is None:
                         dividers = self._get_key("grid.minor.fancy.dividers")
                     assert len(dividers) > 0
-                    dividers = np.sort(dividers)
+                    # Force divisions to be integers
+                    dividers = np.sort(dividers).astype(np.int)
 
                     if threshold is None:
                         threshold = self._get_key("grid.minor.fancy.threshold")
@@ -1005,7 +1006,7 @@ class SmithAxes(Axes):
                     len_x, len_y = len(xticks) - 1, len(yticks) - 1
 
                     # 2. Step: calculate optimal gridspacing for each quadrant
-                    d_mat = np.ones((len_x, len_y, 2))
+                    d_mat = np.ones((len_x, len_y, 2), dtype=np.int)
 
                     # TODO: optimize spacing algorithm
                     for i in range(len_x):
